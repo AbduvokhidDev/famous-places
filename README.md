@@ -1,6 +1,6 @@
-# Collection App
+# famous places sayti
 
-6-oy loyihasi — shaxsiy kolleksiya ilovasi.
+6-oy loyihasi — shaxsiy  sayt ilovasi.
 
 ## Tuzilishi
 
