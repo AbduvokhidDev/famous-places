@@ -1,24 +1,24 @@
 const prisma = require("../prisma");
 
-const getAllpleace = async (req, res) => {
+const getAllpleace = async (req, res, next) => {
   try {
-    const res = await prisma.place.findMany({
+    const places = await prisma.place.findMany({
       where: { userId: req.userId },
       orderBy: { createdAt: "desc" },
     });
-    res.json({ success: true, data: res });
+    res.json({ success: true, data: places });
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    next(error);
   }
 };
 
 const getById = async (req, res, next) => {
   try {
     const id = parseInt(req.params.id);
-    if (Numver.isNuN(id)) {
+    if (Number.isNaN(id)) {
       return res.status(400).json({ success: false, error: "Invalid ID" });
     }
-    const place = await prisma.place.findUnique({
+    const place = await prisma.place.findFirst({
       where: { id, userId: req.userId },
     });
     if (!place) {
@@ -29,20 +29,20 @@ const getById = async (req, res, next) => {
     next(error);
   }
 };
-// //////////////////////////////////////////////////////
+
 const createpleace = async (req, res, next) => {
   try {
-    const { title, description, location, userId, rate, imageUrl } = req.body;
+    const { title, description, location, rate, imageUrl,davlat } = req.body;
 
     const newPlace = await prisma.place.create({
       data: {
+        davlat:davlat||"nomlum",
         title,
         description: description || null,
         imageUrl: imageUrl || null,
-
         rate: rate || null,
-        userId: req.userId,
         location: location || null,
+        userId: req.userId,
       },
     });
     res.status(201).json({ success: true, data: newPlace });
@@ -50,13 +50,14 @@ const createpleace = async (req, res, next) => {
     next(error);
   }
 };
+
 const updatepleace = async (req, res, next) => {
   try {
     const id = parseInt(req.params.id);
     if (Number.isNaN(id)) {
       return res.status(400).json({ success: false, error: "Invalid ID" });
     }
-    const existingPlace = await prisma.place.findUnique({
+    const existingPlace = await prisma.place.findFirst({
       where: { id, userId: req.userId },
     });
     if (!existingPlace) {
@@ -71,14 +72,14 @@ const updatepleace = async (req, res, next) => {
     next(err);
   }
 };
-// //////////////////////////////////////////////////////
+
 const deletepleace = async (req, res, next) => {
   try {
     const id = parseInt(req.params.id);
     if (Number.isNaN(id)) {
       return res.status(400).json({ success: false, error: "Invalid ID" });
     }
-    const existingPlace = await prisma.place.findUnique({
+    const existingPlace = await prisma.place.findFirst({
       where: { id, userId: req.userId },
     });
     if (!existingPlace) {
@@ -90,6 +91,7 @@ const deletepleace = async (req, res, next) => {
     next(error);
   }
 };
+
 module.exports = {
   getAllpleace,
   getById,
