@@ -1,11 +1,11 @@
-import { useAuth } from '@clerk/react';
-import { Routes, Route } from 'react-router-dom';
+import { useAuth } from "@clerk/react";
+import { Route, Routes } from "react-router-dom";
 
-import Home from './pages/Home';
-import Dashboard from './pages/Dashboard';
-import Layout from './components/Layout';
-import Profile from './pages/Profile';
-import ProtectedRoute from './components/ProtectedRoute';
+import Layout from "./components/Layout";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Dashboard from "./pages/Dashboard";
+import Home from "./pages/Home";
+import Profile from "./pages/Profile";
 
 function App() {
   const { isLoaded } = useAuth();
@@ -41,6 +41,23 @@ function App() {
           }
         />
       </Route>
+      <Route
+        path="myplaces"
+        element={
+          <ProtectedRoute>
+            <Myplaces />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="famousplaces"
+        element={
+          <ProtectedRoute>
+            <FamousPlaces />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 }
