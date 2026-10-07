@@ -7,7 +7,7 @@ const {
   createPlaceSchema,
   updatePlaceSchema,
 } = require("../Validations/place.validation");
-
+router.get("/famous", pleaceController.getFamousPlaces);
 router.use(requireAuth);
 
 router.get("/", pleaceController.getAllpleace);

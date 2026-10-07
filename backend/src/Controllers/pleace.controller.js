@@ -1,10 +1,50 @@
 const prisma = require("../prisma");
 
+const pickPlaceData = (body) => {
+  const {
+    title,
+    name,
+    davlat,
+    location,
+    rate,
+    imageUrl,
+    description,
+    whichLanguage,
+    kimBilanBorishKerak,
+  } = body;
+
+  return {
+    title,
+    davlat: davlat || "nomlum",
+    name: name ?? null,
+    location: location ?? null,
+    rate: rate ?? null,
+    imageUrl: imageUrl || null,
+    description: description ?? null,
+    whichLanguage: whichLanguage ?? null,
+    kimBilanBorishKerak: kimBilanBorishKerak ?? null,
+  };
+};
+
 const getAllpleace = async (req, res, next) => {
   try {
     const places = await prisma.place.findMany({
       where: { userId: req.userId },
       orderBy: { createdAt: "desc" },
+    });
+    res.json({ success: true, data: places });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getFamousPlaces = async (req, res, next) => {
+  try {
+    const places = await prisma.place.findMany({
+      orderBy: [
+        { rate: { sort: "desc", nulls: "last" } },
+        { createdAt: "desc" },
+      ],
     });
     res.json({ success: true, data: places });
   } catch (error) {
@@ -32,18 +72,8 @@ const getById = async (req, res, next) => {
 
 const createpleace = async (req, res, next) => {
   try {
-    const { title, description, location, rate, imageUrl,davlat } = req.body;
-
     const newPlace = await prisma.place.create({
-      data: {
-        davlat:davlat||"nomlum",
-        title,
-        description: description || null,
-        imageUrl: imageUrl || null,
-        rate: rate || null,
-        location: location || null,
-        userId: req.userId,
-      },
+      data: { ...pickPlaceData(req.body), userId: req.userId },
     });
     res.status(201).json({ success: true, data: newPlace });
   } catch (error) {
@@ -65,7 +95,7 @@ const updatepleace = async (req, res, next) => {
     }
     const item = await prisma.place.update({
       where: { id },
-      data: req.body,
+      data: pickPlaceData(req.body),
     });
     res.json({ success: true, data: item });
   } catch (err) {
@@ -94,6 +124,7 @@ const deletepleace = async (req, res, next) => {
 
 module.exports = {
   getAllpleace,
+  getFamousPlaces,
   getById,
   createpleace,
   updatepleace,

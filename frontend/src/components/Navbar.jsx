@@ -88,7 +88,12 @@ function Navbar() {
             <NavLink to="/famousplaces" className={linkClass}>
               Famous Places
             </NavLink>
+            <NavLink to="/about" className={linkClass}>
+              About
+            </NavLink>
+          </Show>
 
+          <Show when="signed-in">
             <UserButton />
           </Show>
         </nav>
