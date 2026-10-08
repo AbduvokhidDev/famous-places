@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "@clerk/react";
+import { useCallback, useEffect, useState } from "react";
 import api from "../api/client";
 import useCurrentUser from "../hooks/useCurrentUser";
 
@@ -16,7 +16,7 @@ const EMPTY_FORM = {
 };
 
 const inputClass =
-  "w-full px-4 py-2.5 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-cyan-300/70";
+  "w-full rounded-xl border border-white/20 bg-white/10 px-4 py-2.5 text-base text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-cyan-300/70";
 
 function Field({ label, required, children }) {
   return (
@@ -137,7 +137,7 @@ function Myplaces() {
       if (editingId) {
         const res = await api.put(`/api/places/${editingId}`, payload, config);
         setPlaces((prev) =>
-          prev.map((p) => (p.id === editingId ? res.data.data : p))
+          prev.map((p) => (p.id === editingId ? res.data.data : p)),
         );
       } else {
         const res = await api.post("/api/places", payload, config);
@@ -149,7 +149,7 @@ function Myplaces() {
       setFormError(
         Array.isArray(e)
           ? e.map((i) => i.message).join(", ")
-          : e || "Saqlashda xatolik"
+          : e || "Saqlashda xatolik",
       );
     } finally {
       setSaving(false);
@@ -179,97 +179,94 @@ function Myplaces() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 pb-16 text-white">
-      {/* Sarlavha */}
-      <div className="flex flex-wrap items-center justify-between gap-4 pt-12 pb-8">
+    <div className="mx-auto max-w-7xl px-4 pb-12 text-white sm:pb-16">
+      <div className="flex flex-col gap-4 pb-6 pt-8 sm:flex-row sm:items-center sm:justify-between sm:pb-8 sm:pt-12">
         <div>
-          <h1 className="text-4xl font-extrabold">
+          <h1 className="text-3xl font-extrabold sm:text-4xl">
             Mening{" "}
             <span className="bg-gradient-to-r from-cyan-300 to-sky-400 bg-clip-text text-transparent">
               joylarim
             </span>
           </h1>
-          <p className="text-white/70 mt-2">
+          <p className="mt-2 text-white/70">
             {loading ? "Yuklanmoqda..." : `Jami ${places.length} ta joy`}
           </p>
         </div>
         <button
           onClick={openCreate}
-          className="px-6 py-3 rounded-full font-semibold bg-cyan-400 text-slate-900 shadow-lg shadow-cyan-500/30 hover:bg-cyan-300 transition"
+          className="w-full rounded-full bg-cyan-400 px-6 py-3 font-semibold text-slate-900 shadow-lg shadow-cyan-500/30 transition hover:bg-cyan-300 sm:w-auto"
         >
           ➕ Yangi joy qo'shish
         </button>
       </div>
 
-      {error && <p className="text-center text-red-300 py-4">{error}</p>}
+      {error && <p className="py-4 text-center text-red-300">{error}</p>}
 
-      {/* Bo'sh holat */}
       {!loading && !error && places.length === 0 && (
-        <div className="rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 p-12 text-center">
-          <p className="text-5xl mb-4">🏝️</p>
-          <p className="text-white/80 mb-6">Hali joy qo'shmagansiz.</p>
+        <div className="rounded-3xl border border-white/20 bg-white/10 p-8 text-center backdrop-blur-md sm:p-12">
+          <p className="mb-4 text-5xl">🏝️</p>
+          <p className="mb-6 text-white/80">Hali joy qo'shmagansiz.</p>
           <button
             onClick={openCreate}
-            className="px-6 py-3 rounded-full font-semibold bg-cyan-400 text-slate-900 hover:bg-cyan-300 transition"
+            className="w-full rounded-full bg-cyan-400 px-6 py-3 font-semibold text-slate-900 transition hover:bg-cyan-300 sm:w-auto"
           >
             Birinchi joyni qo'shish
           </button>
         </div>
       )}
 
-      {/* Kartalar */}
-      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-5 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3">
         {places.map((place) => (
           <article
             key={place.id}
-            className="group rounded-3xl overflow-hidden bg-white/10 backdrop-blur-md border border-white/20 shadow-xl hover:-translate-y-1 hover:border-cyan-300/50 transition-all"
+            className="group overflow-hidden rounded-3xl border border-white/20 bg-white/10 shadow-xl backdrop-blur-md transition-all hover:-translate-y-1 hover:border-cyan-300/50"
           >
-            <div className="relative h-56 overflow-hidden bg-gradient-to-br from-cyan-900/60 to-indigo-900/60">
+            <div className="relative h-52 overflow-hidden bg-gradient-to-br from-cyan-900/60 to-indigo-900/60 sm:h-56">
               {place.imageUrl && (
                 <img
                   src={place.imageUrl}
                   alt={place.title}
                   onError={(e) => (e.currentTarget.style.display = "none")}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
-              <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-semibold bg-black/40 backdrop-blur border border-white/20">
+              <span className="absolute left-3 top-3 max-w-[60%] truncate rounded-full border border-white/20 bg-black/40 px-3 py-1 text-xs font-semibold backdrop-blur sm:left-4 sm:top-4">
                 🌍 {place.davlat}
               </span>
               {place.rate != null && (
-                <span className="absolute top-4 right-4 px-3 py-1 rounded-full text-sm font-bold bg-yellow-400 text-slate-900">
+                <span className="absolute right-3 top-3 rounded-full bg-yellow-400 px-3 py-1 text-sm font-bold text-slate-900 sm:right-4 sm:top-4">
                   ⭐ {place.rate}
                 </span>
               )}
-              <h2 className="absolute bottom-4 left-5 right-5 text-2xl font-bold">
+              <h2 className="absolute bottom-3 left-4 right-4 break-words text-xl font-bold sm:bottom-4 sm:left-5 sm:right-5 sm:text-2xl">
                 {place.title}
               </h2>
             </div>
 
-            <div className="p-5">
+            <div className="p-4 sm:p-5">
               {place.name && (
-                <p className="text-white/60 text-sm">{place.name}</p>
+                <p className="text-sm text-white/60">{place.name}</p>
               )}
               {place.location && (
-                <p className="text-cyan-300 text-sm font-medium mt-1">
+                <p className="mt-1 text-sm font-medium text-cyan-300">
                   📍 {place.location}
                 </p>
               )}
               {place.description && (
-                <p className="mt-3 text-white/80 text-sm line-clamp-3">
+                <p className="mt-3 line-clamp-3 text-sm text-white/80">
                   {place.description}
                 </p>
               )}
               {(place.whichLanguage || place.kimBilanBorishKerak) && (
                 <div className="mt-4 flex flex-wrap gap-2">
                   {place.whichLanguage && (
-                    <span className="px-3 py-1 rounded-full text-xs bg-white/10 border border-white/20">
+                    <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs">
                       🗣 {place.whichLanguage}
                     </span>
                   )}
                   {place.kimBilanBorishKerak && (
-                    <span className="px-3 py-1 rounded-full text-xs bg-white/10 border border-white/20">
+                    <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs">
                       👥 {place.kimBilanBorishKerak}
                     </span>
                   )}
@@ -279,13 +276,13 @@ function Myplaces() {
               <div className="mt-5 flex gap-3">
                 <button
                   onClick={() => openEdit(place)}
-                  className="flex-1 py-2 rounded-full text-sm font-medium bg-white/10 border border-white/20 hover:bg-white/20 transition"
+                  className="flex-1 rounded-full border border-white/20 bg-white/10 py-2.5 text-sm font-medium transition hover:bg-white/20"
                 >
                   ✏️ Tahrirlash
                 </button>
                 <button
                   onClick={() => setDeleteTarget(place)}
-                  className="flex-1 py-2 rounded-full text-sm font-medium bg-red-500/20 border border-red-400/40 text-red-200 hover:bg-red-500/40 transition"
+                  className="flex-1 rounded-full border border-red-400/40 bg-red-500/20 py-2.5 text-sm font-medium text-red-200 transition hover:bg-red-500/40"
                 >
                   🗑 O'chirish
                 </button>
@@ -295,18 +292,17 @@ function Myplaces() {
         ))}
       </div>
 
-      {/* Forma (modal) */}
       {modalOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-3 backdrop-blur-sm sm:p-4"
           onClick={closeModal}
         >
           <form
             onSubmit={handleSubmit}
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl bg-slate-900/95 border border-white/20 p-6 sm:p-8 shadow-2xl space-y-4"
+            className="max-h-[92dvh] w-full max-w-2xl space-y-4 overflow-y-auto rounded-3xl border border-white/20 bg-slate-900/95 p-5 shadow-2xl sm:p-8"
           >
-            <h2 className="text-2xl font-bold">
+            <h2 className="text-xl font-bold sm:text-2xl">
               {editingId ? "Joyni tahrirlash" : "Yangi joy qo'shish"}
             </h2>
 
@@ -353,6 +349,7 @@ function Myplaces() {
                   min="0"
                   max="5"
                   step="0.1"
+                  inputMode="decimal"
                   value={form.rate}
                   onChange={handleChange}
                   className={inputClass}
@@ -381,6 +378,7 @@ function Myplaces() {
 
             <Field label="Rasm havolasi (URL)">
               <input
+                type="url"
                 name="imageUrl"
                 value={form.imageUrl}
                 onChange={handleChange}
@@ -399,20 +397,20 @@ function Myplaces() {
               />
             </Field>
 
-            {formError && <p className="text-red-300 text-sm">{formError}</p>}
+            {formError && <p className="text-sm text-red-300">{formError}</p>}
 
-            <div className="flex justify-end gap-3 pt-2">
+            <div className="flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:justify-end">
               <button
                 type="button"
                 onClick={closeModal}
-                className="px-5 py-2.5 rounded-full bg-white/10 border border-white/20 hover:bg-white/20 transition"
+                className="rounded-full border border-white/20 bg-white/10 px-5 py-2.5 transition hover:bg-white/20"
               >
                 Bekor qilish
               </button>
               <button
                 type="submit"
                 disabled={saving}
-                className="px-6 py-2.5 rounded-full font-semibold bg-cyan-400 text-slate-900 hover:bg-cyan-300 disabled:opacity-60 transition"
+                className="rounded-full bg-cyan-400 px-6 py-2.5 font-semibold text-slate-900 transition hover:bg-cyan-300 disabled:opacity-60"
               >
                 {saving ? "Saqlanmoqda..." : editingId ? "Saqlash" : "Qo'shish"}
               </button>
@@ -421,33 +419,32 @@ function Myplaces() {
         </div>
       )}
 
-      {/* O'chirishni tasdiqlash */}
       {deleteTarget && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
           onClick={() => !deleting && setDeleteTarget(null)}
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-md rounded-3xl bg-slate-900/95 border border-white/20 p-6 text-center shadow-2xl"
+            className="w-full max-w-md rounded-3xl border border-white/20 bg-slate-900/95 p-5 text-center shadow-2xl sm:p-6"
           >
-            <p className="text-4xl mb-3">🗑</p>
+            <p className="mb-3 text-4xl">🗑</p>
             <h3 className="text-xl font-bold">O'chirishni tasdiqlang</h3>
-            <p className="text-white/70 mt-2">
+            <p className="mt-2 break-words text-white/70">
               "{deleteTarget.title}" butunlay o'chiriladi.
             </p>
-            <div className="mt-6 flex justify-center gap-3">
+            <div className="mt-6 flex gap-3">
               <button
                 onClick={() => setDeleteTarget(null)}
                 disabled={deleting}
-                className="px-5 py-2.5 rounded-full bg-white/10 border border-white/20 hover:bg-white/20 transition"
+                className="flex-1 rounded-full border border-white/20 bg-white/10 px-4 py-2.5 transition hover:bg-white/20"
               >
                 Bekor qilish
               </button>
               <button
                 onClick={confirmDelete}
                 disabled={deleting}
-                className="px-5 py-2.5 rounded-full font-semibold bg-red-500 hover:bg-red-400 disabled:opacity-60 transition"
+                className="flex-1 rounded-full bg-red-500 px-4 py-2.5 font-semibold transition hover:bg-red-400 disabled:opacity-60"
               >
                 {deleting ? "O'chirilmoqda..." : "Ha, o'chirish"}
               </button>

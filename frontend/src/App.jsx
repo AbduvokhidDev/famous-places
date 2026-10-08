@@ -15,8 +15,8 @@ function App() {
 
   if (!isLoaded) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <p className="text-gray-500">Yuklanmoqda...</p>
+      <div className="flex min-h-dvh items-center justify-center bg-slate-950">
+        <p className="text-cyan-300">Yuklanmoqda...</p>
       </div>
     );
   }
