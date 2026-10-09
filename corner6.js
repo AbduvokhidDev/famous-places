@@ -1,15 +1,11 @@
 // 1. Quyidagi funksiyani yozing
-function yaratUser(ism, yosh = 18, rol = 'user') {
-return { ism, yosh, rol } // shorthand bilan
-console, log (yarptuser ('ALL'));
-// { ism: 'Ali', yosh: 18, rol: 'user' }
-console. log(yaratUser ('Vali', 25, "admin"));  //{ İsm: "Vali", yosh: 25, rol: "admin"}
+function yaratUser(ism, yosh = 18, rol = "user") {
+  return { ism, yosh, rol };
+}
+console.log(yaratUser("ALL"));
+console.log(yaratUser("Vali", 25, "admin")); //{ İsm: "Vali", yosh: 25, rol: "admin"}
 
-const foydalanuvchi = { ism: "Ali", yosh: 18, rol: "user" };
-const payload = ({ ism, yosh, rol } = foydalanuvchi);
-console.log(payload);
-
-// 2. Dinamik obyekt yarating
+// // 2. Dinamik obyekt yarating
 const maydon = "shahar";
 const qiymat = "Toshkent";
 // Natija: { shahar: 'Toshkent' }
