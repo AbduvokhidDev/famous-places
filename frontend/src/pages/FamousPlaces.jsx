@@ -99,7 +99,7 @@ function FamousPlaces() {
           />
         </div>
 
-        <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:justify-center sm:overflow-visible sm:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {/* <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:justify-center sm:overflow-visible sm:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {countries.map((c) => (
             <button
               key={c}
@@ -113,7 +113,7 @@ function FamousPlaces() {
               {c}
             </button>
           ))}
-        </div>
+        </div> */}
       </div>
 
       {error && <p className="py-10 text-center text-red-300">{error}</p>}
