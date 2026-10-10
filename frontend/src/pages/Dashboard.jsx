@@ -123,12 +123,21 @@ function Dashboard() {
         <ActionButton to="/profile" icon="👤">
           Profil
         </ActionButton>
+        <ActionButton to="/tickets" icon="✈️">
+          chipta sotib olish imoknyati
+          <p className="p-4 text-sm text-white/80">
+            bunday imkonyat faqat{" "}
+            <span className="font-bold text-cyan-300">Famous Places</span> da
+            mavjud.
+          </p>
+        </ActionButton>
       </div>
 
       <div className="mb-4 flex items-center justify-between gap-3">
         <h2 className="text-xl font-bold sm:text-2xl">
           So'nggi qo'shilgan joylar
         </h2>
+
         <Link
           to="/myplaces"
           className="shrink-0 text-sm text-cyan-300 hover:underline"

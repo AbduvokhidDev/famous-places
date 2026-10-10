@@ -184,6 +184,14 @@ function FamousPlaces() {
                     )}
                   </div>
                 )}
+                <a
+                  href="https://www.aviasales.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-5 block w-full rounded-full bg-cyan-400 py-2.5 text-center text-sm font-semibold text-slate-900 shadow-lg shadow-cyan-500/30 transition hover:bg-cyan-300"
+                >
+                  ✈️ Aviachiptalarni ko'rish
+                </a>
               </div>
             </article>
           ))}
