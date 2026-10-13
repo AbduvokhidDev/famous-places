@@ -1,5 +1,5 @@
 const prisma = require("../prisma");
-
+const ensureUser = require("../utils/ensureUser");
 const pickPlaceData = (body) => {
   const {
     title,
@@ -72,6 +72,7 @@ const getById = async (req, res, next) => {
 
 const createpleace = async (req, res, next) => {
   try {
+    await ensureUser(req.userId);
     const newPlace = await prisma.place.create({
       data: { ...pickPlaceData(req.body), userId: req.userId },
     });
