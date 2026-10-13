@@ -4,6 +4,10 @@ const cors = require("cors");
 const morgan = require("morgan");
 const { clerkMiddleware, getAuth } = require("@clerk/express");
 
+const placeRoutes = require("./Routes/pleace.routes");
+const commentRoutes = require("./Routes/comment.routes");
+const userRoutes = require("./Routes/user.routes");
+
 const app = express();
 
 const allowedOrigins = [
@@ -29,7 +33,7 @@ app.get("/whoami", (req, res) => {
     userId,
     sessionId,
     hasClaims: !!sessionClaims,
-    auth0nReq: req.auth ?? null,
+    authOnReq: req.auth ?? null,
   });
 });
 
@@ -43,8 +47,9 @@ app.get("/health", (req, res) => {
   });
 });
 
-const placeRoutes = require("./Routes/pleace.routes");
 app.use("/api/places", placeRoutes);
+app.use("/api", commentRoutes);
+app.use("/api", userRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ success: false, error: "Not Found" });
