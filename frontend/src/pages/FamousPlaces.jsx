@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import api from "../api/client";
+import CommentSection from "../components/CommentSection";
 import useCurrentUser from "../hooks/useCurrentUser";
-
 function PlaceImage({ src, alt }) {
   const [failed, setFailed] = useState(false);
 
@@ -192,6 +192,7 @@ function FamousPlaces() {
                 >
                   ✈️ Aviachiptalarni ko'rish
                 </a>
+                <CommentSection placeId={place.id} />
               </div>
             </article>
           ))}
